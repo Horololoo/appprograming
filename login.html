@@ -10,12 +10,56 @@
 </head>
 <body>
 <div class="item--8Jg">
-  <div class="item--userid-container">
-    <input type="text" class="item--userid" placeholder="아이디"/>
+    <form id="loginForm" action="Login.php" method="POST">
+    <div class="item--userid-container">
+      <input type="text" class="item--userid" name="userID" placeholder="아이디"/>
+    </div>
+    <div class="item--userpw-container">
+      <input type="password" class="item--userpw" name="userPW" placeholder="비밀번호"/>
+    <button><a href="forgetID.html"><p class = 'pointer'><img class="item--RwJ" src="./assets/-mNC.png"/></p></a></button> <!--forgetID버튼-->
+    <button type="submit"><a href="home.html"><p class = 'pointer'><img class="item--HME" src="./assets/-JFE.png"/></p></a></button> <!--로그인 버튼-->
+  </form>
   </div>
-  <div class="item--userpw-container">
-    <input type="text" class="item--userpw" placeholder="비밀번호"/>
-  </div>
+  <script>
+        $(document).ready(function () {
+            // 폼 제출 이벤트 핸들러
+            $('#loginForm').submit(function (e) {
+                e.preventDefault();
+
+                // 입력된 데이터 가져오기
+                var userID = $('#userID').val();
+                var userPW = $('#userPW').val();
+
+                // 간단한 유효성 검사 (실제로는 더 강화된 검사가 필요합니다)
+                if (!userID || !userPW) {
+                    alert('ID와 비밀번호를 모두 입력하세요.');
+                    return;
+                }
+
+                // 로그인 처리
+                $.ajax({
+                    type: 'POST',
+                    url: 'Login.php', // 로그인을 처리할 백엔드 파일 경로
+                    data: {
+                        userID: userID,
+                        userPW: userPW
+                    },
+                    success: function (response) {
+                        if (response === 'success') {
+                            alert('로그인 성공');
+                            // 로그인 성공 시 다음 페이지로 리다이렉트 또는 다른 동작 수행
+                        } else {
+                            alert('로그인 실패. 아이디 또는 비밀번호를 확인하세요.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('서버 에러');
+                    }
+                });
+            });
+        });
+    </script>
   <img class="item--Chr" src="./assets/-asE.png"/> <!--배경 언덕-->
   <img class="item--KnU" src="./assets/-tRr.png"/> <!--투명도 조절한 구름-->
   <img class="item--3Cg" src="./assets/-Pgp.png"/> <!--투명도 조절한 구름-->
